@@ -71,7 +71,8 @@ const features = [
 export function FeaturesSection() {
   return (
     <section className="relative w-full bg-[#F3F4F6] border-y border-[#E5E7EB] overflow-hidden">
-      <div className="w-full flex flex-col lg:flex-row">
+      {/* Mobile: Grid 2 Kolom x 2 Baris | Desktop: Flex Row 4 Kolom */}
+      <div className="w-full grid grid-cols-2 lg:flex lg:flex-row">
         {features.map((item, index) => (
           <motion.div
             key={item.id}
@@ -79,28 +80,27 @@ export function FeaturesSection() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: index * 0.1 }}
-            className="flex-1 min-h-[420px] p-10 lg:p-12 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#E5E7EB] last:border-r-0 transition-colors duration-300 hover:bg-[#E5E7EB] group"
+            className="p-3.5 sm:p-5 lg:p-10 xl:p-12 flex flex-col justify-between border-b border-r border-[#E5E7EB] [&:nth-child(2n)]:border-r-0 [&:nth-child(3)]:border-b-0 [&:nth-child(4)]:border-b-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3)]:border-b-0 lg:border-b-0 lg:last:border-r-0 transition-colors duration-300 hover:bg-[#E5E7EB] group min-h-0 lg:min-h-[420px] lg:flex-1"
           >
-            {/* Bagian Atas: Ikon di Kanan */}
-            <div className="flex justify-end w-full">
-              <div className="transition-transform duration-300 group-hover:scale-110">
+            {/* Bagian Atas: Ikon di Kanan (Diskalakan di Mobile) */}
+            <div className="flex justify-end w-full mb-3 lg:mb-0">
+              <div className="scale-75 sm:scale-90 lg:scale-100 origin-top-right transition-transform duration-300 group-hover:scale-110">
                 {item.icon}
               </div>
             </div>
 
-            {/* Bagian Bawah: Judul & Deskripsi sejajar bawah */}
-            <div className="mt-auto space-y-4">
-              <h3 className="text-[26px] font-bold text-[#1A1A1A] tracking-tight">
+            {/* Bagian Bawah: Judul & Deskripsi */}
+            <div className="mt-auto space-y-1.5 lg:space-y-4">
+              <h3 className="text-[14px] sm:text-[18px] lg:text-[26px] font-bold text-[#1A1A1A] tracking-tight leading-snug">
                 {item.title}
               </h3>
-              <p className="text-[15px] leading-relaxed text-[#555555]">
+              <p className="text-[11px] sm:text-[13px] lg:text-[15px] leading-tight lg:leading-relaxed text-[#555555]">
                 {item.desc}
               </p>
             </div>
           </motion.div>
         ))}
       </div>
-
     </section>
   )
 }

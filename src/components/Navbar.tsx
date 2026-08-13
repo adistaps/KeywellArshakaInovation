@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ChevronRight } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { ChevronRight, Menu, X } from 'lucide-react'
 
 const nav = [
   ['Home', '/'],
@@ -14,38 +15,148 @@ const nav = [
 
 export function Navbar() {
   const pathname = usePathname()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  // Detect scroll to add background
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Close menu on route change
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [pathname])
+
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
 
   return (
-    <header className="site-header-nle">
-      {/* 1. Logo bergaya geometris seperti referensi gambar */}
-      <div className="logo-container">
-        <Link className="logo-nle" href="/">
-          <img src="/logokey.webp" alt="Keywell Arshaka Innovation" className="h-10 w-auto object-contain" />
-        </Link>
+    <>
+      <header className={`navbar-wrapper ${scrolled ? 'navbar-scrolled' : ''}`}>
+        {/* Logo */}
+        <div className={`navbar-logo transition-opacity duration-200 ${menuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+          <Link href="/" className="logo-nle" onClick={() => setMenuOpen(false)}>
+            <img
+              src="/logokey.webp"
+              alt="Keywell Arshaka Innovation"
+              className="navbar-logo-img"
+            />
+          </Link>
+        </div>
+
+        {/* Desktop Navigation */}
+        <nav className="navbar-desktop-nav" aria-label="Main navigation">
+          {nav.map(([name, url]) => {
+            const isActive = pathname === url
+            return (
+              <Link
+                key={name}
+                href={url}
+                className={`navbar-link ${isActive ? 'navbar-link-active' : ''}`}
+              >
+                {isActive && (
+                  <span className="navbar-active-arrow">
+                    <ChevronRight size={18} strokeWidth={4} />
+                  </span>
+                )}
+                {name}.
+              </Link>
+            )
+          })}
+        </nav>
+
+        {/* Spacer (desktop) */}
+        <div className="navbar-right-spacer" aria-hidden="true" />
+
+        {/* Hamburger Button (mobile only) */}
+        <button
+          className="navbar-hamburger"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? 'Tutup menu' : 'Buka menu'}
+          aria-expanded={menuOpen}
+        >
+          {menuOpen ? <X size={26} strokeWidth={2.5} /> : <Menu size={26} strokeWidth={2.5} />}
+        </button>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`mobile-menu-overlay ${menuOpen ? 'mobile-menu-open' : ''}`}
+        aria-hidden={!menuOpen}
+      >
+        {/* Close backdrop */}
+        <div
+          className="mobile-menu-backdrop"
+          onClick={() => setMenuOpen(false)}
+        />
+
+        {/* Drawer */}
+        <nav
+          className={`mobile-menu-drawer ${menuOpen ? 'mobile-drawer-open' : ''}`}
+          aria-label="Mobile navigation"
+        >
+          {/* Drawer Header */}
+          <div className="mobile-menu-header">
+            <span className="text-white font-bold text-sm tracking-widest uppercase opacity-80">Menu</span>
+            <button
+              className="mobile-menu-close"
+              onClick={() => setMenuOpen(false)}
+              aria-label="Tutup menu"
+            >
+              <X size={24} strokeWidth={2.5} />
+            </button>
+          </div>
+
+          {/* Drawer Links */}
+          <ul className="mobile-menu-list">
+            {nav.map(([name, url], index) => {
+              const isActive = pathname === url
+              return (
+                <li
+                  key={name}
+                  className="mobile-menu-item"
+                  style={{ animationDelay: `${index * 60}ms` }}
+                >
+                  <Link
+                    href={url}
+                    className={`mobile-menu-link ${isActive ? 'mobile-menu-link-active' : ''}`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <span className="mobile-menu-link-text">{name}</span>
+                    {isActive && (
+                      <ChevronRight
+                        size={18}
+                        strokeWidth={3}
+                        className="mobile-menu-link-arrow"
+                      />
+                    )}
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+
+          {/* Drawer Footer */}
+          <div className="mobile-menu-footer">
+            <p className="mobile-menu-footer-text">
+              PT. Keywell Arshaka Innovation
+            </p>
+            <p className="mobile-menu-footer-sub">
+              hello@keywellarshaka.com
+            </p>
+          </div>
+        </nav>
       </div>
-
-      {/* 2. Navigasi Tengah */}
-      <nav className="desktop-nav-nle">
-        {nav.map(([name, url]) => {
-          // Ganti kondisi ini sesuai kebutuhan routing Anda
-          const isActive = pathname === url || (name === 'Home' && pathname === '/')
-
-          return (
-            <Link key={name} href={url} className={`nav-link-nle ${isActive ? 'active' : ''}`}>
-              {/* Panah merah sejajar di KIRI teks */}
-              {isActive && (
-                <span className="active-arrow">
-                  <ChevronRight size={20} strokeWidth={4} />
-                </span>
-              )}
-              {name}.
-            </Link>
-          )
-        })}
-      </nav>
-
-      {/* 3. Spacer kosong di kanan agar menu Navigasi tetap 100% di tengah */}
-      <div className="right-spacer" aria-hidden="true"></div>
-    </header>
+    </>
   )
 }

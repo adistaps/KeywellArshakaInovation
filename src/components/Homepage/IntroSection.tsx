@@ -6,9 +6,9 @@ import { ArrowRight } from 'lucide-react'
 
 export function IntroSection() {
   return (
-    <section className="intro-nle-section">
+    <section className="intro-nle-section max-md:py-10 max-md:px-4">
       <div className="container">
-        <div className="intro-nle-grid">
+        <div className="intro-nle-grid max-md:flex max-md:flex-col max-md:gap-8">
           {/* Kolom Kiri: Teks & Tombol */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -17,12 +17,14 @@ export function IntroSection() {
             transition={{ duration: 0.6 }}
             className="intro-nle-content"
           >
-            <h2 className="intro-nle-heading">
+            <h2 className="intro-nle-heading max-md:text-2xl max-md:leading-tight max-md:mb-4">
               World-Class <br />
               Manufacturing & <br />
               Power Tools
             </h2>
-            <div className="intro-nle-text-wrap">
+
+            {/* Ditambahkan text-justify agar rata kanan-kiri di Mobile & Desktop */}
+            <div className="intro-nle-text-wrap text-justify max-md:text-sm max-md:leading-relaxed max-md:space-y-3">
               <p>
                 PT. Keywell Arshaka Innovation adalah fasilitas produsen alat listrik baru yang
                 didirikan pada tahun 2024. Didukung oleh kolaborasi 2 tim ahli: <strong>Xinju Tools</strong> (pengalaman 20+ tahun R&D dan manufaktur alat listrik)
@@ -36,8 +38,8 @@ export function IntroSection() {
             </div>
 
             {/* Menggunakan class pill button merah seperti di Hero */}
-            <Link href="/about-us" className="btn-nle-red-pill mt-4">
-              Discover Our Story <ArrowRight size={17} />
+            <Link href="/about-us" className="btn-nle-red-pill mt-4 max-md:text-xs max-md:py-2.5 max-md:px-5">
+              Discover Our Story <ArrowRight size={15} />
             </Link>
           </motion.div>
 
@@ -48,9 +50,9 @@ export function IntroSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <div className="slanted-image-wrapper">
+            {/* Tinggi wrapper gambar disesuaikan di HP agar tidak terlalu tinggi */}
+            <div className="slanted-image-wrapper max-md:h-[220px]">
               {/* Gambar Background dipisah jadi 3 bagian clip-path */}
-              {/* Ganti URL background-image dengan foto pabrik/produk Anda */}
               <div
                 className="slanted-part part-1"
                 style={{ backgroundImage: `url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop')` }}

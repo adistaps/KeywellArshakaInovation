@@ -27,8 +27,9 @@ const teamMembers = [
 
 export function TeamSection() {
   return (
-    <section className="py-20 px-6 md:px-16 max-w-[1400px] mx-auto font-sans">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <section className="py-12 sm:py-20 px-6 md:px-16 max-w-[1400px] mx-auto font-sans overflow-hidden sm:overflow-visible">
+      {/* Container: Horizontal Scroll di HP (flex + overflow-x-auto), Grid di Tablet/Desktop (sm:grid) */}
+      <div className="flex sm:grid overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none gap-5 sm:gap-6 pb-4 sm:pb-0 sm:grid-cols-2 lg:grid-cols-4 -mx-6 px-6 sm:mx-0 sm:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {teamMembers.map((member, index) => (
           <motion.div
             key={member.name}
@@ -36,7 +37,7 @@ export function TeamSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="relative h-[450px] overflow-hidden group cursor-pointer bg-gray-100"
+            className="relative h-[400px] sm:h-[450px] w-[280px] sm:w-full shrink-0 snap-center overflow-hidden group cursor-pointer bg-gray-100"
           >
             {/* Foto Anggota Tim */}
             <img

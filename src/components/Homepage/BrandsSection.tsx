@@ -24,15 +24,16 @@ export function BrandsSection() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: idx * 0.05 }}
-            className="group relative bg-white h-[180px] md:h-[240px] flex items-center justify-center cursor-pointer overflow-hidden"
+            className="group relative bg-white h-[80px] sm:h-[95px] md:h-[110px] px-4 flex items-center justify-center cursor-pointer overflow-hidden"
           >
             <div
               className="absolute inset-0 bg-[#F5A200] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
               style={{
-                clipPath: 'polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%)'
+                clipPath: 'polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)'
               }}
             />
-            <span className="relative z-10 text-xl md:text-3xl font-bold text-gray-900 group-hover:text-white transition-colors duration-300 text-center tracking-tight">
+            {/* Penyesuaian ukuran teks agar pas dengan box yang lebih kecil */}
+            <span className="relative z-10 text-sm sm:text-base md:text-xl font-bold text-gray-900 group-hover:text-white transition-colors duration-300 text-center tracking-tight">
               {name}
             </span>
           </motion.div>

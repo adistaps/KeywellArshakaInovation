@@ -31,9 +31,8 @@ export function HeroSection() {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveSlide((prev) => (prev === slides.length ? 1 : prev + 1))
-    }, 5000) // 5000 = 5 detik. Bisa Anda sesuaikan.
+    }, 5000)
 
-    // Membersihkan timer saat komponen di-unmount agar tidak bocor memory
     return () => clearInterval(timer)
   }, [])
 
@@ -41,21 +40,22 @@ export function HeroSection() {
   const currentSlide = slides.find(slide => slide.id === activeSlide)
 
   return (
-    <section className="hero-nle-wrapper">
+    /* Tinggi hero di HP dipangkas lebih pendek lagi (50vh, min-height 360px) */
+    <section className="hero-nle-wrapper max-md:h-[50vh] max-md:min-h-[360px]">
       {/* Background Dinamis dengan Animasi Fade */}
       <AnimatePresence mode="popLayout">
         <motion.div
-          key={activeSlide} // Key berubah memicu animasi
+          key={activeSlide}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1 }} // Durasi transisi fade 1 detik
+          transition={{ duration: 1 }}
           className="hero-nle-bg"
           style={{ backgroundImage: `url(${currentSlide?.bg})` }}
         />
       </AnimatePresence>
 
-      {/* Overlay Gelap (Pindahkan keluar dari bg agar tidak ikut transisi berulang) */}
+      {/* Overlay Gelap */}
       <div className="hero-nle-overlay" />
 
       {/* Konten Utama di Tengah */}
@@ -66,12 +66,13 @@ export function HeroSection() {
           transition={{ duration: 0.6 }}
           className="hero-nle-inner"
         >
-          <h1 className="hero-nle-title">
+          {/* Ukuran font diperkecil lagi ke text-xl di HP */}
+          <h1 className="hero-nle-title max-md:text-xl max-md:leading-snug">
             Power Tools & <br /> Industrial Innovation
           </h1>
 
-          <Link href="/products" className="btn-nle-red-pill">
-            View More <ArrowRight size={17} />
+          <Link href="/products" className="btn-nle-red-pill max-md:text-xs max-md:py-2 max-md:px-4">
+            View More <ArrowRight size={15} />
           </Link>
         </motion.div>
       </div>
@@ -82,7 +83,6 @@ export function HeroSection() {
           <button
             key={slide.id}
             className={`nav-box ${activeSlide === slide.id ? 'active-blur' : ''}`}
-            // Jika user klik, auto-slide akan menimpa dari slide yang diklik
             onClick={() => setActiveSlide(slide.id)}
           >
             <span className="nav-box-num">0{slide.id}</span>
