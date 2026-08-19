@@ -6,6 +6,7 @@ import { PageHero } from '@/components/PageHero'
 import { CTA } from '@/components/CTA'
 import Link from 'next/link'
 
+
 const reveal = {
   hidden: { opacity: 0, y: 30 },
   show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const } }
@@ -54,6 +55,7 @@ export default function Page() {
               key={index}
               className="group relative w-full aspect-[4/5] bg-gray-200 overflow-hidden cursor-pointer"
             >
+              <Link href={`/products/${name.split(' ')[0].toLowerCase().replace('ka-', 'ka-')}`} className="absolute inset-0 z-10" aria-label={`View ${name}`} />
               {/* Background Image */}
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-in-out group-hover:scale-110"
